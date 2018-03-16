@@ -74,7 +74,9 @@ pageEncoding="UTF-8"%>
         }
 		// ---------------------------------------------------------------------------------------------------->
 	}
+	<!-- json 형태로 변환 -->
 	json.put(newsName, array);
+	<!-- status.jsp 페이지에서 에러날만한 태그, 언론사이름 제거 -->
 	jsonArticle = json.toString().replaceAll("\""+newsName+"\":","").replaceAll("\\{\\[","\\[").replaceAll("\\]\\}","\\]");
 %>
 <%=jsonArticle%>
