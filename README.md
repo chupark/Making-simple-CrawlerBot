@@ -1,5 +1,26 @@
 # Making-simple-CrawlerBot
 
+## 개발 환경
+
+<table>
+<tr>
+<td>ubuntu linux</td><td>16.04.3 LTS</td>
+</tr>
+<tr>
+<td>자바 버전</td><td>jdk 1.8.0_151</td>
+</tr>
+<tr>
+<td>데이터베이스</td><td>Oracle 12C R2</td>
+</tr>
+<tr>
+<td>라이브러리</td><td>jsoup, org.w3c.dom, org.json</td>
+</tr>
+<tr>
+<td>웹브라우저</td><td>chrome</td>
+</tr>
+</table>
+
+
 ## 중계서버
 
 ### status.jsp
