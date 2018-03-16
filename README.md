@@ -20,6 +20,9 @@
 </tr>
 </table>
 
+## 계통도
+
+![enter image description here](https://github.com/chupark/Making-simple-CrawlerBot/blob/master/crawling_drawing.PNG)
 
 ## 중계서버
 
