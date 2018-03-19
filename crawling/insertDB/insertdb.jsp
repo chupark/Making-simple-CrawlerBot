@@ -1,5 +1,5 @@
 <%@ page session="true" import="java.util.*" %>
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page contentType="application/json; charset=utf-8" %>
 <%@ page import="java.sql.*,javax.sql.*,java.io.*" %>
 <%@ page import = "org.json.*" %>
 <%request.setCharacterEncoding("UTF-8");%>
@@ -26,6 +26,7 @@ String title = "";
 String aTag = "";
 String updateDate = "";
 String sql = "";
+String ermsg = "";
 
 JSONArray arr = new JSONArray(json_news);
 JSONObject jsonObject = new JSONObject();
@@ -53,15 +54,17 @@ try{
 						"VALUES ('"+unronsa+"', '"+title+"', '"+aTag+"', TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI'))";
 			stmt.execute(sql);
 		}
-	out.println("success");
+		
+	ermsg="{\"status\":\"success\"}";
 	stmt.close();
 	conn.close();
 	} catch(SQLException ex) {
-		out.println(ex);
+		ermsg = "{\"status\":\""+ex+"\"'}";
 	} catch(Exception e){
-		out.println(e);
+		ermsg = "{\"status\":\""+e+"\"}";
 	}finally {
 		if (stmt != null) try { stmt.close(); } catch(SQLException ex) {}
 		if (conn != null) try { conn.close(); } catch(SQLException ex) {}
 	}
 %>
+<%=ermsg%>

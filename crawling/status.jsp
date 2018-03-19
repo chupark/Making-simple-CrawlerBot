@@ -68,14 +68,18 @@ function sendTo_insertDB(newsdata, unronsa){
 			company : unronsa,
 			jsonString : JSON.stringify(newsdata),
 		},
-		dataType : "text",
+		dataType : "json",
 		timeout : 30000,
 		success : function(restext){
-			if(restext.replace(/\r\n/gi,"").replace(/ /gi,"" == "success")){
-				document.getElementById(unronsa).innerHTML = "모든 진행상황이 성공적으로 끝났습니다.";	
+			var result_status = "";
+			$.each(restext, function(entryIndex, entry){
+				result_status = entry;
+			});
+			if(result_status == "success"){
+				document.getElementById(unronsa).innerHTML = "모든 과정이 성공적으로 끝났습니다.";
 			}else{
-				//입력서버로 갔지만 sql 에러가 나면 오류 출력
-				document.getElementById(unronsa).innerHTML = restext;	
+				//insert 페이지로 갔지만 sql 오류일시 오류메세지 출력
+				document.getElementById(unronsa).innerHTML = result_status;
 			}
 		},
 		error: function(){
