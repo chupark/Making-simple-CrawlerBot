@@ -6,13 +6,13 @@
 
 <%!
 //Oracle DB 삽입용 String Converter
-public String strConverterForDB(String inputValue){
-	inputValue = inputValue.replaceAll("\\.","").
+public String strConverterForDB(String inputString){
+	inputString = inputString.replaceAll("\\.","").
 							replaceAll(";","&#59").
 							replaceAll("'","&#39").
 							replaceAll("\\\\","");
 				 
-	return inputValue;
+	return inputString;
 }
 %>
 <%
@@ -43,14 +43,14 @@ try{
 			updateDate = strConverterForDB(arr.getJSONObject(i).getString("updateDate"));
 			sql = "MERGE "+
 					"INTO CRAWLING_NEWS CN "+
-					"USING DUAL "+
-					"ON (CN.ATAG = '"+aTag+"') "+
+						"USING DUAL "+
+						"ON (CN.ATAG = '"+aTag+"') "+
 					"WHEN MATCHED THEN "+
-					   "UPDATE SET CN.TITLE = '"+title+"', CN.UPDATEDATE = TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI') "+
-					   "WHERE CN.ATAG = '"+aTag+"' "+
+					    "UPDATE SET CN.TITLE = '"+title+"', CN.UPDATEDATE = TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI') "+
+					    "WHERE CN.ATAG = '"+aTag+"' "+
 					"WHEN NOT MATCHED THEN "+
-					"INSERT (CN.DOMAIN, CN.TITLE, CN.ATAG, CN.UPDATEDATE) "+
-					"VALUES ('"+unronsa+"', '"+title+"', '"+aTag+"', TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI'))";
+						"INSERT (CN.DOMAIN, CN.TITLE, CN.ATAG, CN.UPDATEDATE) "+
+						"VALUES ('"+unronsa+"', '"+title+"', '"+aTag+"', TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI'))";
 			stmt.execute(sql);
 		}
 	out.println("success");
