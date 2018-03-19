@@ -8,15 +8,16 @@
 </head>
 <body>
 <!--언론사 추가시 테이블 tr 추가해주세요-->
+<h2>크롤링 중계서버</h2>
 <table border=1 width=600>
 	<tr>
-		<td width="30%">언론사</td><td width="70%">크롤링 상태</td>
+		<td width="30%">언론사</td><td width="70%">상태</td>
 	</tr>
 	<tr>
-		<td>ohmynews</td><td id ="ohmynews">진행중...</td>
+		<td>ohmynews</td><td id ="ohmynews">...</td>
 	</tr>
 	<tr>
-		<td>yonhapnews</td><td id ="yonhapnews">진행중...</td>
+		<td>yonhapnews</td><td id ="yonhapnews">...</td>
 	</tr>	
 </table>
 <script>
@@ -32,6 +33,7 @@ $(function(){
 
 //이 아래는 수정 하지 마세요
 function getArticle_Ajax(unron_company){
+	document.getElementById(unron_company).innerHTML = "기사 수집중";
 	var url = unron_company + ".jsp";
 	$.ajax({
 		type: "POST",
