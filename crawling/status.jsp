@@ -46,13 +46,13 @@ function getArticle_Ajax(unron_company){
 		timeout: 30000, 
 		success : function(resdata){
 			var html = "";
-			document.getElementById(unron_company).innerHTML = "크롤링 성공";
+			document.getElementById(unron_company).innerHTML = "수집 성공";
 			
 			//db insert
 			sendTo_insertDB(resdata, unron_company);
 		},
 		error : function(){
-			document.getElementById(unron_company).innerHTML = "크롤링 실패";
+			document.getElementById(unron_company).innerHTML = "수집 실패, 문자 형태, 주소를 확인해주세요";
 		}
 	})
 }
