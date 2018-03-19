@@ -29,6 +29,8 @@ $(function(){
 	getArticle_Ajax("yonhapnews");
 });
 
+
+//이 아래는 수정 하지 마세요
 function getArticle_Ajax(unron_company){
 	var url = unron_company + ".jsp";
 	$.ajax({
