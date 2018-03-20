@@ -37,16 +37,17 @@
 ### 사용법
 
    1.
-   - crawler 디렉터리의 아무 jsp 소스를 복사 붙여넣기 한 후 언론사 도메인 입력
-   - title : 제목이 있는 태그를 찾아서 기입
-   - aTag : href 링크가 있는 태그를 찾아서 기입
-   - updateDate : 작성일이 있는 태그를 찾아서 기입
+   - copy & paste **news.jsp <src : crawling/crawler>
+   - title : Find title element on yourDomain.html or something...
+   - aTag : Find href(a tag) element on yourDomain.html or something...
+   - updateDate : Find date element on yourDomain.html or something...
 
    2.
-   - status.jsp 페이지에 가서
-   - ajax 호출함수 한줄 입력 (status.jsp 페이지에 상세하게 써있음)
-   - 크롤링 상태를 보고싶다면 코드 상단의 테이블에 양식에 맞게 코드 삽입
+   - Go to <src crawling/status.jsp> just add function like 'getArticle_Ajax("yourDomain");
+   - !IMPORTANT! You have to give a same name to yourDomain.html and 'getArticle_Ajax("yourDomain");
+   - !for example! google.html & getArticle_Ajax("google.html"); 
+   - If you want to monitor about Crawling status. add "tr, td tag" in the <table></table>
 
    3.
-   - status.jsp 페이지 새로고침
+   - refresh status.jsp 
    
