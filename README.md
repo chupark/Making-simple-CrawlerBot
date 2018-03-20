@@ -46,7 +46,7 @@
    - Go to <src crawling/status.jsp> and just add function like 'getArticle_Ajax("yourDomain"); bottom of the $(function(){
    - !IMPORTANT! You have to give a same name to yourDomain.html and 'getArticle_Ajax("yourDomain");
    - !for example! google.html & getArticle_Ajax("google.html"); 
-   - If you want to monitor about Crawling status. add "tr, td tag" in the <table></table>
+   - If you want to monitor the Crawling status. add "tr, td tag" in the <table></table>
 
    3.
    - Change your JDBC Connection <src : crawling/insertDB/insertdb.jsp >
