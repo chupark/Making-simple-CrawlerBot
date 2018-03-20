@@ -1,5 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page info="copyright by Chi Woo Park"%>
+<%@ page info="copyright by Chi Woo Park, email:qkrcldn12@gmail.com"%>
 <!DOCTYPE>
 <html>
 <head>

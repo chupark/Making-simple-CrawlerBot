@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.sql.*,javax.sql.*,java.io.*,org.json.*" %>
+<%@ page info="copyright by Chi Woo Park, email:qkrcldn12@gmail.com"%>
 <!DOCTYPE>
 <html>
 <head>

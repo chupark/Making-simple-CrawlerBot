@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="application/json; charset=UTF-8" 
 pageEncoding="UTF-8"%>
+<%@ page info="copyright by Chi Woo Park, email:qkrcldn12@gmail.com"%>
 <%@ page import = "org.jsoup.Jsoup, 
 				   org.w3c.dom.*,
 				   org.jsoup.nodes.Document, 

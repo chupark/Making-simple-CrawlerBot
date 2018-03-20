@@ -2,6 +2,7 @@
 <%@ page contentType="application/json; charset=utf-8" %>
 <%@ page import="java.sql.*,javax.sql.*,java.io.*" %>
 <%@ page import = "org.json.*" %>
+<%@ page info="copyright by Chi Woo Park, email:qkrcldn12@gmail.com"%>
 <%request.setCharacterEncoding("UTF-8");%>
 
 <%!
