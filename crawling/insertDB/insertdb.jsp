@@ -17,7 +17,6 @@ public String strConverterForDB(String inputString){
 <%
 Connection conn = null;
 Statement stmt = null;
-String aa = request.getParameter("status");
 String unronsa = request.getParameter("company");
 String json_news = request.getParameter("jsonString");
 
@@ -28,8 +27,6 @@ String sql = "";
 String ermsg = "";
 
 JSONArray arr = new JSONArray(json_news);
-JSONObject jsonObject = new JSONObject();
-	
 
 try{
 	//DBMS¿¬°á

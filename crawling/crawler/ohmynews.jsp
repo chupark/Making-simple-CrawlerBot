@@ -29,10 +29,8 @@ pageEncoding="UTF-8"%>
 	   String newsName = "ohmynews"; // 언론사 이름 소문자로 해주세요!!
 	//***************************************************************************************************************
 	
-	String flag = request.getParameter("status");
 	//json 변수
 	JSONArray array = new JSONArray();
-	JSONObject json = new JSONObject();
 	String jsonArticle = "";
 	for(int i = 1; i <= maximumPage; i++){
 		//사이트 url
@@ -74,7 +72,6 @@ pageEncoding="UTF-8"%>
         }
 		// ---------------------------------------------------------------------------------------------------->
 	}
-	json.put(newsName, array);
-	jsonArticle = json.toString().replaceAll("\""+newsName+"\":","").replaceAll("\\{\\[","\\[").replaceAll("\\]\\}","\\]");
+	jsonArticle = array.toString();
 %>
 <%=jsonArticle%>

@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page info="copyright by Chi Woo Park"%>
 <!DOCTYPE>
 <html>
 <head>
@@ -38,14 +39,10 @@ function getArticle_Ajax(unron_company){
 	$.ajax({
 		type: "POST",
 		url: "/crawling/crawler/"+url,
-		data : {
-			status : "success",
-		},
 		cache : false,
 		dataType : "json",
 		timeout: 30000, 
 		success : function(resdata){
-			var html = "";
 			document.getElementById(unron_company).innerHTML = "수집 성공";
 			
 			//db insert
@@ -57,6 +54,7 @@ function getArticle_Ajax(unron_company){
 	})
 }
 
+//<!------------------------ 기사 삽입
 function sendTo_insertDB(newsdata, unronsa){
 	var url = "/crawling/insertDB/insertdb.jsp";
 	document.getElementById(unronsa).innerHTML = "DB 대조중";
@@ -64,7 +62,6 @@ function sendTo_insertDB(newsdata, unronsa){
 		type: "POST",
 		url: url,
 		data : {
-			status : "success",
 			company : unronsa,
 			jsonString : JSON.stringify(newsdata),
 		},
@@ -73,9 +70,9 @@ function sendTo_insertDB(newsdata, unronsa){
 		success : function(restext){
 			var result_status = "";
 			$.each(restext, function(entryIndex, entry){
-				result_status = entry;
+				result_status = entry; //성공시 파싱할 문자
 			});
-			if(result_status == "success"){
+			if(result_status == "success"){ //성공시 success 문자 파싱
 				document.getElementById(unronsa).innerHTML = "모든 과정이 성공적으로 끝났습니다.";
 			}else{
 				//insert 페이지로 갔지만 sql 오류일시 오류메세지 출력
@@ -84,7 +81,7 @@ function sendTo_insertDB(newsdata, unronsa){
 		},
 		error: function(){
 			//입력서버로 도달하지 못했을시
-			document.getElementById(unronsa).innerHTML = "입력서버 전송 에러, json 형태,서버주소를 확인 해주세요";
+			document.getElementById(unronsa).innerHTML = "입력서버 전송 에러, json 형태, 서버주소를 확인 해주세요";
 		}
 	})
 }
