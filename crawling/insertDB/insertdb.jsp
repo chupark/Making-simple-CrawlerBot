@@ -7,10 +7,9 @@
 <%!
 //Oracle DB »ðÀÔ¿ë String Converter
 public String strConverterForDB(String inputString){
-	inputString = inputString.replaceAll("\\.","").
-							replaceAll(";","&#59").
-							replaceAll("'","&#39").
-							replaceAll("\\\\","");
+	inputString = inputString.replaceAll(";","&#59").
+							  replaceAll("'","&#39").
+							  replaceAll("\\\\","");
 				 
 	return inputString;
 }

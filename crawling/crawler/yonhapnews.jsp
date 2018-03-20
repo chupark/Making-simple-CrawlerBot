@@ -46,20 +46,22 @@ pageEncoding="UTF-8"%>
         Document doc = Jsoup.connect(URL).get();
 		
         //태그를 기준으로 각 엘리먼트에 접근 
-		//<!---------------------------------------------------------------이곳 수정하세요
+		//<!--HEAD---------------------------------------------------이곳 수정하세요-----------------------------
         // for ex) <div class=hi> => doc.select("div.hi")
         Elements elem = doc.select("div.data");
 	              
         //엘리먼트 갯수만큼 반복문을 돔 => 돌때마다 커서가 1씩 증가함
-		//<!-----------------  크롤러 추가시 태그만 잘 찾아서 [제목 : title, href링크 : aTag, 작성일, updateDate 에 써주세요] -------
+		//<!--BODY 크롤러 추가시 태그만 잘 찾아서 [제목 : title, href링크 : aTag, 작성일, updateDate 에 써주세요]--
         for(Element e: elem){
+			//<!--제목 수정부
         	title = e.select("h2.title").select("[href]").text().replaceAll("\"", ""); 				//기사 제목 a태그가 두개여서 난잡하게 처리
+			//<!--기사 A태그 수정부
         	if(e.select("h2.title").select("[href]").attr("href").startsWith("http")){	//링크 절대경로가있고 상대경로가 있음..
         		aTag = e.select("h2.title").select("[href]").attr("href").replaceAll("\"", "");
         	}else{
         		aTag = "http://www.yonhapnewstv.co.kr" + e.select("h2.title").select("[href]").attr("href").replaceAll("\"", "");
         	}
-        	//작성일
+        	//<!--작성일 수정부
         	updateDate = e.select("span.time").text();
         	JSONObject item = new JSONObject();
         	item.put("title", title);
@@ -70,7 +72,8 @@ pageEncoding="UTF-8"%>
         	//out.println("링크 : " + aTag + "<br>");
         	//out.println("작성일 : "+ updateDate +"<br><br>");
         }
-		// ---------------------------------------------------------------------------------------------------->
+		//--BODY -------------------------------------------------------------------------------->
+		//--HEAD------------------------------------------------------------------------------------------>
 	}
 	json.put(newsName, array);
 	jsonArticle = json.toString().replaceAll("\""+newsName+"\":","").replaceAll("\\{\\[","\\[").replaceAll("\\]\\}","\\]");

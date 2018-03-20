@@ -6,6 +6,30 @@
 <meta charset="utf-8" />
 <script src="/crawling/js/jquery-3.3.1.min.js"></script>
 <title>article view</title>
+<style>
+a {
+	color: blue; text-decoration: none;
+}	
+a:hover{
+	color: red; text-decoration: underline;
+}	
+td.board{
+	border-top:1px solid black;
+}
+td.board_bott{
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+}
+tr.grey{
+	background-color:#e5e179;
+}
+tr.light_grey{
+	background-color:#eaeaea;
+}
+tr.heavy_grey{
+	background-color:#dbdbdb;
+}
+</style>
 </head>
 <body>
 <%
@@ -32,38 +56,44 @@ try{
 	
 	sql = "SELECT COUNT(DOMAIN) FROM CRAWLING_NEWS";
 	rset = stmt.executeQuery(sql);
-	//<!----- 페 이 징 변 수 ----------------------------------
+	//<!--------------------------- 페 이 징 변 수 ----------------------------------
 	int bottomStart = 1;
 	int bottomEnd = 10;
 	int bottomMaxpage = 1;
 	int nextPage = 11;
 	int backPage = 1;
-	
-	if(curpageNum % 10 == 0){
-		if(curpageNum == 10){
-			bottomStart = curpageNum / 10;
-		}else{
-			bottomStart = (((curpageNum / 10) - 1) * 10) + 1;
-		}
-		nextPage = curpageNum + 1;
-	}else{
-		bottomStart = (curpageNum / 10) * 10 + 1;
-		nextPage = (((curpageNum / 10) + 1) * 10) + 1;
-	}
 	int pageShow = 10;
 	int totalRecod = 0;
 	int totalPage = 0;	
+	int i = 0;
+	int j = 1;
+	
+	//바닥 페이지 네비게이션 설정
+	if(curpageNum % bottomEnd == 0){
+		if(curpageNum == bottomEnd){
+			bottomStart = curpageNum / bottomEnd;
+		}else{
+			bottomStart = (((curpageNum / bottomEnd) - 1) * bottomEnd) + 1;
+		}
+		nextPage = curpageNum + 1;
+	}else{
+		bottomStart = (curpageNum / bottomEnd) * bottomEnd + 1;
+		nextPage = (((curpageNum / bottomEnd) + 1) * bottomEnd) + 1;
+	}
+	
 	
 	while(rset.next()){
 	totalRecod = rset.getInt(1);	
 	};
-	if (totalRecod % 10 == 0){
+	//총 페이지 계산
+	if (totalRecod % pageShow == 0){
 		totalPage = totalRecod / pageShow;
 	}else {
 		totalPage = (totalRecod / pageShow) + 1;
 	}
-	//------------------------------------------------------> 
+	//--------------------------------------------------------------------------> 
 
+	//<!------------------------------- 레코드 출력----------------------------------
 	if(curpageNum == 1){
 	sql = "SELECT * FROM("+
 			"SELECT ROW_NUMBER() OVER(ORDER BY UPDATEDATE DESC) zNUM, "+
@@ -87,43 +117,68 @@ try{
 	}
 	rset = stmt.executeQuery(sql);
 	
-	out.println("<table>");
-	out.println("<tr><td>언론사</td><td>제목</td><td>작성일</td></tr>");
+	out.println("<table width=850 border=0 cellspacing=0>");
+	out.println("<tr class=grey><td class=board height=30 style='border-right:1px solid black;'>언론사</td>"+
+				"<td class=board style='border-right:1px solid black;'>제목</td>"+
+				"<td class=board >작성일</td></tr>");
+	int evenNum = 0;
 	while(rset.next()){
-		out.println("<tr>");
-		out.println("<td>");		
+		if (evenNum % 2 == 0){
+			out.println("<tr class=light_grey>");
+		}else{
+			out.println("<tr class=heavy_grey>");
+		}
+		out.println("<td class=board height=30 width='18%' style='border-right:1px solid black;'>");
 		out.println(rset.getString(2));
 		out.println("</td>");
-		out.println("<td>");
-		out.println("<a href='"+rset.getString(4)+"'>"+rset.getString(3)+"</a>");
+		out.println("<td class=board width='70%' style='border-right:1px solid black;'>");
+		out.println("<a href='"+rset.getString(4)+"' target='_blank'>"+rset.getString(3)+"</a>");
 		out.println("</td>");
-		out.println("<td>");		
+		out.println("<td class=board width='12%' >");
 		out.println(rset.getString(5));
 		out.println("</td>");
 		out.println("</tr>");
+		evenNum++;
 	}
-	out.println("<table>");
+	out.println("</table>");
+	
+	//----------------------------------------------------------------->
+	
+	//<!--------------------- 페이지 네비게이션 출력-----------------------------------------------------
+	out.println("<table width=850 border=0 cellspacing=0>");
+	out.println("<tr><td class=board align=center>");
 	if(bottomStart >10){
-		out.println("<button type=button id=pg"+Integer.toString(bottomStart - 1)+
+		out.println("<button type=button style='width:80;height:25;background-color:white;border:0;cursor:pointer' "+
+					"id=pg"+Integer.toString(bottomStart - 1)+
 					" value="+Integer.toString(bottomStart - 1)+" onclick='callAlert(this);'>"+
-					"뒤로</button>");
+					"뒤로</button>&nbsp;");
 	}
-	int i = 0;
-	int j = 1;
+	
 	for(i = bottomStart; i < bottomStart + 10; i++){
-		out.println("<input type=button id=pg"+Integer.toString(i)+
-					" value="+Integer.toString(i)+" onclick='callAlert(this);'/>");
+		if(i == curpageNum){
+			out.println("<input type=button style='width:35;height:25;background-color:white;border:0;"+
+						"cursor:pointer;font-weight:bold;color:red' "+
+						"id=pg"+Integer.toString(i)+
+						" value="+Integer.toString(i)+" onclick='callAlert(this);'/>");
+		}else{
+			out.println("<input type=button style='width:35;height:25;background-color:white;border:0;cursor:pointer' "+
+						"id=pg"+Integer.toString(i)+
+						" value="+Integer.toString(i)+" onclick='callAlert(this);'/>");			
+		}
 		if(i == totalPage){
 			break;
 		}
 	}
+	
 	if (i < totalPage){
-		out.println("<button type=button id=pg"+(Integer.toString(i + 1))+
-					" value="+Integer.toString(i + 1)+" onclick='callAlert(this);'>"+
+		out.println("<button type=button style='width:80;height:25;background-color:white;border:0;cursor:pointer' "+
+					"id=pg"+(Integer.toString(i))+
+					" value="+Integer.toString(i)+" onclick='callAlert(this);'>"+
 					"앞으로</button>");		
 	}
-	
-	
+	out.println("</td></tr>");
+	out.println("</table>");
+	//------------------------------------------------------------------------------------------>
 	
 	rset.close();
 	stmt.close();

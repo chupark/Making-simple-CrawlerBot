@@ -57,8 +57,6 @@ function getArticle_Ajax(unron_company){
 	})
 }
 
-
-
 function sendTo_insertDB(newsdata, unronsa){
 	var url = "/crawling/insertDB/insertdb.jsp";
 	document.getElementById(unronsa).innerHTML = "DB 대조중";
