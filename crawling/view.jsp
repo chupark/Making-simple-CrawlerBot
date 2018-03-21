@@ -23,15 +23,18 @@ $( document ).ready(function() {
 		})
 })
 
-function callAlert(buttonID){
+function movePage(buttonID){
 	var obj = buttonID;
 	var btnValue = obj.value;
+	var obj2 = document.getElementById("domain");
+	var domainAddress = obj2.value;
 	$.ajax({
 		type: "POST",
 		url: "/crawling/view/select.jsp",
 		dataType: "text",
 		data: {
 			curpage: btnValue,
+			search_Option: domainAddress,
 		},
 		cache: false,
 		timeout : 20000,
@@ -41,6 +44,27 @@ function callAlert(buttonID){
 		error: function(resdata){
 			alert(resdata);
 		}
+	})
+}
+
+function domainFilter(){
+	var obj = document.getElementById("domain");
+	var domainAddress = obj.value;
+	$.ajax({
+		type: "POST",
+		url: "/crawling/view/select.jsp",
+		dataType: "text",
+		data: {
+			search_Option: domainAddress,
+		},
+		cache: false,
+		timeout : 20000,
+		success: function(resdata){
+			$('.article').html(resdata);
+		},
+		error: function(resdata){
+			alert(resdata);
+		}		
 	})
 }
 </script>

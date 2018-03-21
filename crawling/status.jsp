@@ -21,6 +21,8 @@
 		<td>yonhapnews</td><td id ="yonhapnews">...</td>
 	</tr>	
 </table>
+<br/>
+<%=getServletInfo()%>
 <script>
 //<!-------------------------- 크롤러 추가 부분----------------------
 //언론사 크롤러 추가시 getArticle_Ajax(<언론사이름>); 이렇게 한개만 추가해주세요
