@@ -28,13 +28,16 @@ function movePage(buttonID){
 	var btnValue = obj.value;
 	var obj2 = document.getElementById("domain");
 	var domainAddress = obj2.value;
+	var obj3 = document.getElementById("search");
+	var searchValue = obj3.value;
 	$.ajax({
 		type: "POST",
 		url: "/crawling/view/select.jsp",
 		dataType: "text",
 		data: {
 			curpage: btnValue,
-			search_Option: domainAddress,
+			filter_Option: domainAddress,
+			search_Option: searchValue,
 		},
 		cache: false,
 		timeout : 20000,
@@ -50,12 +53,15 @@ function movePage(buttonID){
 function domainFilter(){
 	var obj = document.getElementById("domain");
 	var domainAddress = obj.value;
+	var obj2 = document.getElementById("search");
+	var searchValue = obj2.value;
 	$.ajax({
 		type: "POST",
 		url: "/crawling/view/select.jsp",
 		dataType: "text",
 		data: {
-			search_Option: domainAddress,
+			filter_Option: domainAddress,
+			search_Option: searchValue,
 		},
 		cache: false,
 		timeout : 20000,
@@ -66,6 +72,34 @@ function domainFilter(){
 			alert(resdata);
 		}		
 	})
+	
+	return false;
+}
+
+function searchFilter(){
+	var obj = document.getElementById("search");
+	var searchValue = obj.value;
+	var obj2 = document.getElementById("domain");
+	var domainAddress = obj2.value;
+	$.ajax({
+		type: "POST",
+		url: "/crawling/view/select.jsp",
+		dataType: "text",
+		data: {
+			filter_Option: domainAddress,
+			search_Option: searchValue, 
+		},
+		cache: false,
+		timeout : 20000,
+		success: function(resdata){
+			$('.article').html(resdata);
+		},
+		error: function(resdata){
+			alert(resdata);
+		}		
+	})
+	
+	return false;
 }
 </script>
 <body>
