@@ -18,6 +18,7 @@ public String strConverterForDB(String inputString){
 <%
 Connection conn = null;
 Statement stmt = null;
+ResultSet rset = null;
 String unronsa = request.getParameter("company");
 String json_news = request.getParameter("jsonString");
 
@@ -27,6 +28,8 @@ String updateDate = "";
 String sql = "";
 String ermsg = "";
 
+int rownumber = 0;
+
 JSONArray arr = new JSONArray(json_news);
 
 try{
@@ -34,6 +37,11 @@ try{
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.23.99:1521:QKRCLDNQKR","CHIWOO","CHIWOO");
 	stmt = conn.createStatement();
+	sql = "SELECT NVL(MAX(NUM),1) FROM CRAWLING_NEWS";
+	rset = stmt.executeQuery(sql);
+	while(rset.next()){
+		rownumber = rset.getInt(1);
+	}
 	
 		for(int i = 0; i < arr.length(); i++){
 			title = strConverterForDB(arr.getJSONObject(i).getString("title"));
@@ -47,12 +55,14 @@ try{
 					    "UPDATE SET CN.TITLE = '"+title+"', CN.UPDATEDATE = TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI') "+
 					    "WHERE CN.ATAG = '"+aTag+"' "+
 					"WHEN NOT MATCHED THEN "+
-						"INSERT (CN.DOMAIN, CN.TITLE, CN.ATAG, CN.UPDATEDATE) "+
-						"VALUES ('"+unronsa+"', '"+title+"', '"+aTag+"', TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI'))";
+						"INSERT (CN.NUM, CN.DOMAIN, CN.TITLE, CN.ATAG, CN.UPDATEDATE) "+
+						"VALUES ("+rownumber+", '"+unronsa+"', '"+title+"', '"+aTag+"', TO_DATE('"+updateDate+"', 'YYYY-MM-DD HH24:MI'))";
 			stmt.execute(sql);
+			rownumber++;
 		}
 		
 	ermsg="{\"status\":\"success\"}";
+	rset.close();
 	stmt.close();
 	conn.close();
 	} catch(SQLException ex) {
@@ -60,6 +70,7 @@ try{
 	} catch(Exception e){
 		ermsg = "{\"status\":\""+e+"\"}";
 	}finally {
+		if (rset != null) try { rset.close(); } catch(SQLException ex) {}
 		if (stmt != null) try { stmt.close(); } catch(SQLException ex) {}
 		if (conn != null) try { conn.close(); } catch(SQLException ex) {}
 	}
