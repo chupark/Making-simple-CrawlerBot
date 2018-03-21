@@ -24,6 +24,10 @@
 
 ![enter image description here](https://github.com/chupark/Making-simple-CrawlerBot/blob/master/crawling_drawing.PNG)
 
+## DB 구조
+
+![enter image description here](https://github.com/chupark/Making-simple-CrawlerBot/blob/master/db_info.PNG)
+
 ## 중계서버
 
 ### status.jsp
