@@ -1,5 +1,11 @@
 # Making-simple-CrawlerBot
 
+<br>
+
+## 간단한 크롤러 봇
+
+<br>
+
 ## 개발 환경
 
 <table>
@@ -24,19 +30,24 @@
 
 ![enter image description here](https://github.com/chupark/Making-simple-CrawlerBot/blob/master/crawling_drawing.PNG)
 
+<br>
+
 ## DB 구조
 
 ![enter image description here](https://github.com/chupark/Making-simple-CrawlerBot/blob/master/db_info.PNG)
 
+<br>
+
 ## 중계서버
+
+<br>
 
 ### status.jsp
 
    - crawler 디렉터리의 각 언론사 크롤러 봇 호출
    - insertdb 호출
 
-
-## 간단한 크롤러 봇
+<br>
 
 ### 사용법
 
