@@ -19,6 +19,9 @@
 	</tr>
 	<tr>
 		<td>yonhapnews</td><td id ="yonhapnews">...</td>
+	</tr>
+	<tr>
+		<td>donga</td><td id ="donga">...</td>
 	</tr>	
 </table>
 <br/>
@@ -31,6 +34,7 @@
 $(function(){
 	getArticle_Ajax("ohmynews");
 	getArticle_Ajax("yonhapnews");
+	getArticle_Ajax("donga");
 }); 
 //------------------------------------------------------------->
 
