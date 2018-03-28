@@ -73,7 +73,6 @@ function domainFilter(){
 		}		
 	})
 	
-	return false;
 }
 
 function searchFilter(){
@@ -103,7 +102,8 @@ function searchFilter(){
 }
 </script>
 <body>
-<div class="article">
-</div>
+
+	<div class="article"></div>
+
 </body>
 </html>

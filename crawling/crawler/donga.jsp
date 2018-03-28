@@ -22,13 +22,10 @@ pageEncoding="UTF-8"%>
 	
 	
 	//*************************************************   page info  ************************************************
-	// 오마이뉴스 크롤링 봇 (ohmynews Crawler)
-	// 오마이뉴스 메인 기사를 크롤링 해옵니다
 	// Jsoup 라이브러리를 사용, 웹 페이지를 DOM 구조로 크롤링
 	// 태그별로 속성, value 추출 가능
 	// 언론사 이름은 소문자로 지정해주세요
-	   int maximumPage = 400; //크롤링해올 총 페이지 개수
-	   String newsName = "ohmynews"; // 언론사 이름 소문자로 해주세요!!
+	   int maximumPage = 800; //크롤링해올 총 페이지 개수
 	//***************************************************************************************************************
 	
 	//json 변수
@@ -36,7 +33,7 @@ pageEncoding="UTF-8"%>
 	String jsonArticle = "";
 	for(int i = 1; i <= maximumPage; i=i+20){
 		//사이트 url
-        String URL = "http://news.donga.com/List?p="+i+"&prod=news&ymd=&m=NP";
+        String URL = "http://news.donga.com/List?p="+Integer.toString(i)+"&prod=news&ymd=&m=";
 		//기사 관련 변수
         String title = "";
         String aTag = "";
@@ -51,7 +48,7 @@ pageEncoding="UTF-8"%>
 		//
         Elements elem = doc.select("div.articleList")
         				   .select("div.rightList");
-	              
+
         //엘리먼트 갯수만큼 반복문을 돔 => 돌때마다 커서가 1씩 증가함
 		//<!-----------------  크롤러 추가시 태그만 잘 찾아서 [제목 : title, href링크 : aTag, 작성일, updateDate 에 써주세요] -------
         for(Element e: elem){

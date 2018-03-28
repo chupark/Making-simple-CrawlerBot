@@ -21,7 +21,12 @@ Statement stmt = null;
 ResultSet rset = null;
 String unronsa = request.getParameter("company");
 String json_news = request.getParameter("jsonString");
-
+if (unronsa == null){
+	return;
+}
+if (json_news == null){
+	return;
+}
 String title = "";
 String aTag = "";
 String updateDate = "";

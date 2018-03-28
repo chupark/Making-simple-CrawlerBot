@@ -34,7 +34,7 @@ span p {
   overflow: hidden; 
   text-overflow: ellipsis;
   white-space: nowrap; 
-  width: 600px;
+  width: 480px;
 }
 </style>
 </head>
@@ -72,8 +72,8 @@ if (curpage != null){
 
 try{
 	//DBMS연결
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.23.99:1521:QKRCLDNQKR","CHIWOO","CHIWOO");
+	Class.forName("com.mysql.jdbc.Driver");
+	conn = DriverManager.getConnection("jdbc:mysql://localhost/CRAWLING_NEWS?useSSL=false","root","honor4me1241q@");
 	stmt = conn.createStatement();
 	//<!--------------------------- 페 이 징 변 수 ----------------------------------
 	int bottomStart = 1;
@@ -101,8 +101,8 @@ try{
 	}
 
 	if(search_Option != null && filter_Option.equals("")){
-		sql = "SELECT COUNT(DOMAIN) FROM CRAWLING_NEWS"+
-				" WHERE TITLE LIKE '%"+search_Option+"%'";
+		sql = "SELECT COUNT(*) FROM CRAWLING_NEWS"+
+				" WHERE LOWER(TITLE) LIKE '%"+search_Option+"%'";
 	}else if(search_Option != null && filter_Option != null){
 		sql = "SELECT COUNT(DOMAIN) FROM CRAWLING_NEWS"+
 				" WHERE DOMAIN='"+filter_Option+"' AND TITLE LIKE '%"+search_Option+"%'";	
@@ -158,86 +158,57 @@ try{
 	//<!------------------------------- 레코드 출력 sql ------------------------------
 	if(filter_Option.equals("")){
 		if(curpageNum == 1){
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A "+
-					" WHERE LOWER(TITLE) LIKE '%"+search_Option+"%'"+
-					")X WHERE X.zNUM BETWEEN 1 and 10";
-		}else{
-			int strt = (curpageNum * pageShow) - pageShow + 1;
-			int endt = curpageNum * pageShow;
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A "+
-					" WHERE LOWER(TITLE) LIKE '%"+search_Option+"%'"+
-					")X WHERE X.zNUM BETWEEN "+strt+" and "+endt;
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE LOWER(TITLE) LIKE '%"+search_Option+"%'"+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT 0, 10";
+		}else{			
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE LOWER(TITLE) LIKE '%"+search_Option+"%'"+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT "+((curpageNum - 1) * pageShow)+", 10";
 		}
 	}else if(search_Option.equals("") && !filter_Option.equals("")){
 		if(curpageNum == 1){
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A"+				
-					" WHERE DOMAIN = '"+filter_Option+"' "+
-					")X WHERE X.zNUM BETWEEN 1 and 10";
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE DOMAIN = '"+filter_Option+"' "+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT 0, 10";
 		}else{
 			int strt = (curpageNum * pageShow) - pageShow + 1;
 			int endt = curpageNum * pageShow;
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A "+
-					" WHERE DOMAIN = '"+filter_Option+"' "+
-					")X WHERE X.zNUM BETWEEN "+strt+" and "+endt;
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE DOMAIN = '"+filter_Option+"' "+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT "+((curpageNum - 1) * pageShow)+", 10";
 		}
 
 	}else{
-		out.println("헬로");
 		if(curpageNum == 1){
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A"+				
-					" WHERE DOMAIN = '"+filter_Option+"' AND LOWER(TITLE) LIKE '%"+search_Option+"%'"+
-					")X WHERE X.zNUM BETWEEN 1 and 10";
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE DOMAIN = '"+filter_Option+"' AND LOWER(TITLE) LIKE '%"+search_Option+"%'"+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT 0, 10";
 		}else{
-			int strt = (curpageNum * pageShow) - pageShow + 1;
-			int endt = curpageNum * pageShow;
-			sql = "SELECT * FROM("+
-					"SELECT ROW_NUMBER() OVER(ORDER BY NUM) zNUM, "+
-						 "DOMAIN, "+
-						 "TITLE, "+
-						 "ATAG, "+
-						 "TO_char(UPDATEDATE,'yyyy-mm-dd') AS UPDATE_DATE "+
-					"FROM CRAWLING_NEWS A "+
-					" WHERE DOMAIN = '"+filter_Option+"' AND LOWER(TITLE) LIKE '%"+search_Option+"%'"+
-					")X WHERE X.zNUM BETWEEN "+strt+" and "+endt;
+			sql = "SELECT DOMAIN, ATAG, TITLE, UPDATEDATE "+
+							"FROM CRAWLING_NEWS "+
+							"WHERE DOMAIN = '"+filter_Option+"' AND LOWER(TITLE) LIKE '%"+search_Option+"%'"+
+							"ORDER BY UPDATEDATE DESC, NUM "+
+							"LIMIT "+((curpageNum - 1) * pageShow)+", 10";
 		}
 	}
 	rset = stmt.executeQuery(sql);
 	//<!-------------------------------내용 출력----------------------------------
 	//헤더
-	out.println("<table width=850 border=0 cellspacing=0>");
-	out.println("<tr class=grey><td class=board height=30 style='border-right:1px solid black;'>언론사</td>"+
-				"<td class=board style='border-right:1px solid black;'>제목</td>"+
-				"<td class=board >작성일</td></tr>");
+	out.println("<table width=1000 border=0 cellspacing=0>");
+	out.println("<tr class=grey><td class=board height=30 width=20% style='border-right:1px solid black;'>언론사</td>"+
+				"<td class=board width=60% style='border-right:1px solid black;'>제목</td>"+
+				"<td class=board width=20% >작성일</td></tr>");
 	//내용
 	int evenNum = 0;
 	while(rset.next()){
@@ -246,14 +217,14 @@ try{
 		}else{
 			out.println("<tr class=heavy_grey>");
 		}
-		out.println("<td class=board height=30 width='18%' style='border-right:1px solid black;'>");
-		out.println(rset.getString(2));
+		out.println("<td class=board height=30 style='border-right:1px solid black;'>");
+		out.println(rset.getString(1));
 		out.println("</td>");
-		out.println("<td class=board width='70%' style='border-right:1px solid black;'>");
-		out.println("<a href='"+rset.getString(4)+"' target='_blank'><span><p>"+rset.getString(3)+"</p></span></a>");
+		out.println("<td class=board style='border-right:1px solid black;'>");
+		out.println("<a href='"+rset.getString(2)+"' target='_blank'><span><p>"+rset.getString(3)+"</p></span></a>");
 		out.println("</td>");
-		out.println("<td class=board width='12%' >");
-		out.println(rset.getString(5));
+		out.println("<td class=board >");
+		out.println(rset.getString(4).substring(0,16));
 		out.println("</td>");
 		out.println("</tr>");
 		evenNum++;
@@ -268,7 +239,7 @@ try{
 	//----------------------------------------------------------------->
 	
 	//<!--------------------- 페이지 네비게이션 출력-----------------------------------------------------
-	out.println("<table width=850 border=0 cellspacing=0>");
+	out.println("<table width=1000 border=0 cellspacing=0>");
 	out.println("<tr><td class=board align=center>");
 	if(bottomStart >10){
 		out.println("<button type=button style='width:80;height:25;background-color:white;border:0;cursor:pointer' "+
